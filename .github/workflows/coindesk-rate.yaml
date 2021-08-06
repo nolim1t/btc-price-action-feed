@@ -1,0 +1,24 @@
+name: BTC Price on Coindesk
+
+on:
+  push:
+    paths:
+      - .github/workflows/coindesk-rate.yaml # Only run a new workflow every time this file (btcprice.yaml) file changes
+  workflow_dispatch:
+    - cron: '*/5 * * * *' # Run this workflow every 5 minutes
+
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+      - name: Setup deno
+        uses: denoland/setup-deno@main
+        with:
+          deno-version: v1.x
+      - name: Fetch data from coindesk
+        uses: nolim1t/flat@v3
+        with:
+          http_url: https://api.coindesk.com/v2/bpi/currentprice.json # The data to fetch every 5 minutes
+          downloaded_filename: coindesk-btc-price.json # The http_url gets saved and renamed in our repository as btc-price.json
