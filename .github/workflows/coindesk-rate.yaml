@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - .github/workflows/coindesk-rate.yaml # Only run a new workflow every time this file (btcprice.yaml) file changes
-  workflow_dispatch:
+  schedule:
     - cron: '*/5 * * * *' # Run this workflow every 5 minutes
 
 jobs:
